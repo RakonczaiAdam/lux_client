@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.scss";
+import React, {Component} from "react";
+import {Login, Register} from "./components/login";
+
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      isLoginActive: false,
+    }
+  }
+
+  changeState(){
+    const {isLoginActive} = this.state;
+    if(isLoginActive){}
+  }
+
+  render (){
+  const {isLoginActive} = this.state;
+  const currentActive = isLoginActive ? "Login" : "Register";
+    return(
+      <div className="app">
+        <div className="login">
+          <div className="container">
+            {isLoginActive && <Login containerRef={(ref) => this.current = ref}/>}
+            {!isLoginActive && <Register containerRef={(ref) => this.current = ref}/>}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
