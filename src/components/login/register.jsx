@@ -92,8 +92,17 @@ export class Register extends React.Component {
       alert('Név megadása kötelező!');
     }
 
-    alert(this.state.status);
+    if(this.state.status === "200"){
+      
+    }
+    else{
+      alert("Sikertelen regisztráció!\nPróbálkozzon újra később!");
+    }
     event.preventDefault();
+  }
+
+  changeToLogin(){
+
   }
 
   render(){
