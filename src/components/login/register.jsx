@@ -4,13 +4,14 @@ export class Register extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userName: '',
-      passWD:'',
-      passWDagain:'.',
-      lastName:'',
-      firstName:'',
-      birthDate:'',
-      gender:'choose'
+      username: '',
+      passwd:'',
+      passedagain:'.',
+      lastname:'',
+      firstname:'',
+      birthdate:'',
+      gender:'choose',
+      status: 'default'
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
@@ -23,61 +24,75 @@ export class Register extends React.Component {
   }
 
   handleChangeUserName(event){
-    this.setState({userName: event.target.value});
+    this.setState({username: event.target.value});
   }
 
   handleChangePW(event){
-    this.setState({passWD: event.target.value});
+    this.setState({passwd: event.target.value});
   }
 
   handleChangePWAgain(event){
-    this.setState({passWDagain: event.target.value});
+    this.setState({passwdagain: event.target.value});
   }
 
   handleChangeLastName(event){
-    this.setState({lastName: event.target.value});
+    this.setState({lastname: event.target.value});
   }
 
   handleChangeFirstName(event){
-    this.setState({firstName: event.target.value});
+    this.setState({firstname: event.target.value});
   }
 
   handleChangeBirthDate(event){
-    this.setState({birthDate: event.target.value});
+    this.setState({birthdate: event.target.value});
   }
 
   handleChangeGender(event){
     this.setState({gender: event.target.value});
   }
 
-  handleSubmit(event){
-    if(this.state.passWD == this.state.passWDagain && this.state.gender != 'choose' && this.state.firstName != '' && this.state.lastName != ''){
-      fetch('http://localhost/8080/register', {
-      method: 'POST',
-      body: JSON.stringify({
-        username: this.state.userName,
-        password: this.state.passWD,
-        birthsday: "2000-05-18",
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        interests: this.state.interests,
-        place: this.state.place,
-        sex: this.state.gender
-      })
-    })
+  async handleSubmit(event){
+    if(this.state.username !== '' && this.state.passwd === this.state.passwdagain && this.state.gender !== 'choose' && this.state.firstname !== '' && this.state.lastname !== ''){
+      const newUser = {
+        method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            username: this.state.username,
+            password: this.state.passwd,
+            birthsday: "2000-05-18",
+            firstName: this.state.firstname,
+            lastName: this.state.lastname,
+            interests: "nothing",
+            place: this.state.place,
+            sex: this.state.gender
+          })
+      }
 
-      alert('Sikeres regisztráció ' + this.state.userName + ' ' + this.state.passWD + this.state.gender);
+      const request = new Request("http://localhost:8080/register", newUser);
+      const response = await fetch(request);
+      this.state.status = await response.status;
+      
+      alert('Sikeres regisztráció');
+    }
+    
+    else if(this.state.username === ''){
+      alert('Felhasználónév megadása kötelező!')
     }
 
-    else if(this.state.passWD != this.state.passWDagain){
+    else if(this.state.passwd !== this.state.passwdagain){
       alert('A két jelszó nem egyezik');
     }
-    else if(this.state.gender == 'choose'){
+    else if(this.state.gender === 'choose'){
       alert('Válasszon nemet!');
     }
-    else if(this.state.firstName == '' || this.state.lastName == ''){
+    else if(this.state.firstname === '' || this.state.lastname === ''){
       alert('Név megadása kötelező!');
     }
+
+    alert(this.state.status);
     event.preventDefault();
   }
 
@@ -89,24 +104,25 @@ export class Register extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Felhasználónév</label>
-                <input type="text" userName={this.state.userName} onChange={this.handleChangeUserName} name="username" placeholder="Felhasználónév"></input>
+                <input type="text" username={this.state.username} onChange={this.handleChangeUserName} name="username" placeholder="Felhasználónév"></input>
               </div>
               <div className="form-group">
                 <label htmlFor="password">Jelszó</label>
-                <input type="password" passWD={this.state.passWD} onChange={this.handleChangePW} name="password" placeholder="Jelszó"></input>
+                <input type="password" passwd={this.state.passwd} onChange={this.handleChangePW} name="password" placeholder="Jelszó"></input>
               </div>
               <div className="form-group">
                 <label htmlFor="password">Jelszó ismét</label>
-                <input type="password" passWDagain={this.state.passWDagain} onChange={this.handleChangePWAgain} name="passwordagain" placeholder="Jelszó ismét"></input>
+                <input type="password" passwdagain={this.state.passwdagain} onChange={this.handleChangePWAgain} name="passwordagain" placeholder="Jelszó ismét"></input>
               </div>
               <div className="form-group">
                 <label htmlFor="lastname">Vezetéknév</label>
-                <input type="text" lastName={this.state.lastName} onChange={this.handleChangeLastName} name="lastname" placeholder="Felhasználónév"></input>
+                <input type="text" lastname={this.state.lastname} onChange={this.handleChangeLastName} name="lastname" placeholder="Felhasználónév"></input>
               </div>
               <div className="form-group">
                 <label htmlFor="firstname">Keresztnév</label>
-                <input type="text" firstName={this.state.firstName} onChange={this.handleChangeFirstName} name="firstname" placeholder="Felhasználónév"></input>
+                <input type="text" firstname={this.state.firstname} onChange={this.handleChangeFirstName} name="firstname" placeholder="Felhasználónév"></input>
               </div>
+
               <div className="form-group">
                 <label htmlFor="gender">Nem</label>
                 <select gender={this.state.gender} onChange={this.handleChangeGender}>

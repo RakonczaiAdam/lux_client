@@ -1,6 +1,6 @@
 
 import "./App.scss";
-import React, {Component} from "react";
+import React from "react";
 import {Login, Register} from "./components/login";
 
 class App extends React.Component {
