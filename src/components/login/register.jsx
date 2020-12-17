@@ -71,7 +71,7 @@ export class Register extends React.Component {
           })
       }
 
-      const request = new Request("http://localhost:8080/register", newUser);
+      const request = new Request("https://lux-rest.herokuapp.com/register", newUser);
       const response = await fetch(request);
       this.state.status = await response.status;
       
