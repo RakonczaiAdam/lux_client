@@ -52,7 +52,9 @@ export class Register extends React.Component {
   }
 
   async handleSubmit(event){
+    
     if(this.state.username !== '' && this.state.passwd === this.state.passwdagain && this.state.gender !== 'choose' && this.state.firstname !== '' && this.state.lastname !== ''){
+      event.preventDefault()
       const newUser = {
         method: "POST",
           headers: {
@@ -74,8 +76,6 @@ export class Register extends React.Component {
       const request = new Request("https://lux-rest.herokuapp.com/register", newUser);
       const response = await fetch(request);
       this.state.status = await response.status;
-      
-      alert('Sikeres regisztráció');
     }
     
     else if(this.state.username === ''){
@@ -92,8 +92,8 @@ export class Register extends React.Component {
       alert('Név megadása kötelező!');
     }
 
-    if(this.state.status === "200"){
-      
+    if(this.state.status === 200){
+      alert('Sikeres regisztráció');
     }
     else{
       alert("Sikertelen regisztráció!\nPróbálkozzon újra később!");
