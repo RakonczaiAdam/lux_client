@@ -1,4 +1,6 @@
 import React from "react";
+import Hookrouter from "hookrouter";
+import { navigate } from "hookrouter";
 
 export class Register extends React.Component {
   constructor(props){
@@ -73,9 +75,18 @@ export class Register extends React.Component {
           })
       }
 
-      const request = new Request("https://lux-rest.herokuapp.com/register", newUser);
+      //https://lux-rest.herokuapp.com/register
+      const request = new Request('http://localhost:8080/register', newUser);
       const response = await fetch(request);
       this.state.status = await response.status;
+
+      if(this.state.status === 200){
+        alert('Sikeres regisztráció');
+        navigate('/login');
+      }
+      else{
+        alert("Sikertelen regisztráció!\nPróbálkozzon újra később!");
+      }
     }
     
     else if(this.state.username === ''){
@@ -91,18 +102,11 @@ export class Register extends React.Component {
     else if(this.state.firstname === '' || this.state.lastname === ''){
       alert('Név megadása kötelező!');
     }
-
-    if(this.state.status === 200){
-      alert('Sikeres regisztráció');
-    }
-    else{
-      alert("Sikertelen regisztráció!\nPróbálkozzon újra később!");
-    }
     event.preventDefault();
   }
 
   changeToLogin(){
-
+    navigate("/login");
   }
 
   render(){
@@ -143,9 +147,14 @@ export class Register extends React.Component {
               <div className="footer">
                 <input type="submit" value="Regisztráció"/>
               </div>
+              <div className="switch">
+              <button onClick={this.changeToLogin}>Már van fiókja?</button>
+            </div>
             </form>
           </div>          
       </div>
     );
   }
 }
+
+export default Register;

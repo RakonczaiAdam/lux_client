@@ -1,3 +1,4 @@
+import { navigate } from "hookrouter";
 import React from "react";
 
 export class Login extends React.Component {
@@ -27,6 +28,10 @@ export class Login extends React.Component {
     event.preventDefault();
   }
 
+  changeToRegister(){
+    navigate("/register");
+  }
+
   render(){
     return (
       <div className="base-container" ref={this.props.containerRef}>
@@ -44,10 +49,15 @@ export class Login extends React.Component {
               <div className="footer">
                 <input type="submit" value="Bejelentkezés"/>
               </div>
+              <div className="switch">
+              <button onClick={this.changeToRegister}>Még nincs fiókja?</button>
+            </div>
             </form>
           </div>          
       </div>
     );
   }
 }
+
+export default Login;
 

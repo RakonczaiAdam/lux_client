@@ -1,15 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {Register, Login} from "./components/login";
+import { useRoutes } from "hookrouter";
+import { A } from "hookrouter";
+import routes from "./components/router";
+import { useRedirect } from 'hookrouter';
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
   document.getElementById('root')
 );
+
+function App() {
+  useRedirect("/", "/login");
+  const routeResult = useRoutes(routes);
+
+  return(
+    <div className="page">
+      {routeResult}
+    </div> 
+    );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
