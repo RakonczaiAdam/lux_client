@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {Register, Login} from "./components/login";
 import { useRoutes } from "hookrouter";
-import { A } from "hookrouter";
 import routes from "./components/router";
 import { useRedirect } from 'hookrouter';
 

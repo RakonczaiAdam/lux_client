@@ -1,13 +1,14 @@
 import { navigate } from "hookrouter";
 import React from "react";
+import "./style.scss";
 
 export class Login extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      userName: '',
-      passWD:''
+      username: '',
+      passwd:''
     };
 
     this.handleChangeName = this.handleChangeName.bind(this);
@@ -16,20 +17,47 @@ export class Login extends React.Component {
   }
 
   handleChangeName(event){
-    this.setState({userName: event.target.value});
+    this.setState({username: event.target.value});
   }
 
   handleChangePW(event){
-    this.setState({passWD: event.target.value});
-  }
-
-  handleSubmit(event){
-    alert('Sikeres regisztráció ' + this.state.userName + ' ' + this.state.passWD);
-    event.preventDefault();
+    this.setState({passwd: event.target.value});
   }
 
   changeToRegister(){
     navigate("/register");
+  }
+
+  async handleSubmit(event){
+    if(this.state.username!=='' && this.state.passwd!==''){
+      event.preventDefault();
+      const encoded = window.btoa(this.state.username + ":" + this.state.passwd);
+      const newLogin = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + encoded,
+          'Access-Control-Allow-Origin': '*'
+        },
+        credentials: 'same-origin'
+      }
+
+      const request = new Request("https://lux-rest.herokuapp.com/post/get", newLogin);
+
+      const response = await fetch(request);
+      console.log(response.response);
+
+      navigate("/feed");
+    }
+    else if(this.state.username === ''){
+      alert("Felhasználónév megadása kötelező!");
+    }
+    else if(this.state.passwd === ''){
+      alert("Jelszó megadása kötelező!");
+    }
+
+    event.preventDefault();
   }
 
   render(){
@@ -40,11 +68,11 @@ export class Login extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Felhasználónév</label>
-                <input type="text" userName={this.state.userName} onChange={this.handleChangeName} name="username" placeholder="Felhasználónév"></input>
+                <input type="text" username={this.state.username} onChange={this.handleChangeName} name="username" placeholder="Felhasználónév"></input>
               </div>
               <div className="form-group">
                 <label htmlFor="password">Jelszó</label>
-                <input type="password" passWD={this.state.passWD} onChange={this.handleChangePW} name="password" placeholder="Jelszó"></input>
+                <input type="password" passwd={this.state.passwd} onChange={this.handleChangePW} name="password" placeholder="Jelszó"></input>
               </div>
               <div className="footer">
                 <input type="submit" value="Bejelentkezés"/>

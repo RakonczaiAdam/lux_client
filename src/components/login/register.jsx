@@ -1,6 +1,6 @@
 import React from "react";
-import Hookrouter from "hookrouter";
 import { navigate } from "hookrouter";
+import "./style.scss";
 
 export class Register extends React.Component {
   constructor(props){
@@ -56,13 +56,13 @@ export class Register extends React.Component {
   async handleSubmit(event){
     
     if(this.state.username !== '' && this.state.passwd === this.state.passwdagain && this.state.gender !== 'choose' && this.state.firstname !== '' && this.state.lastname !== ''){
-      event.preventDefault()
+      event.preventDefault();
       const newUser = {
         method: "POST",
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        },
+          },
           body: JSON.stringify({
             username: this.state.username,
             password: this.state.passwd,
@@ -83,7 +83,7 @@ export class Register extends React.Component {
 
       if(this.state.status === 200){
         alert('Sikeres regisztráció');
-        navigate('/login');
+        navigate("/login");
       }
       else{
         alert("Sikertelen regisztráció!\nPróbálkozzon újra később!");

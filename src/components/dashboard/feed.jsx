@@ -1,6 +1,6 @@
 import React from "react";
 
-export class Dashboard extends React.Component{
+class Feed extends React.Component{
     constructor(props){
         super(props);
     }
@@ -11,3 +11,5 @@ export class Dashboard extends React.Component{
         );
     }
 }
+
+export default Feed
