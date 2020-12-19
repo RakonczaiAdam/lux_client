@@ -53,7 +53,7 @@ const InfiniteScroll = () => {
     }
 
 
-    return (<div className="container" style={containerStyle}>
+    return (<div className="mainfeed" style={containerStyle}>
         <div className="post-list">
             {
                 postList.list.map((post, index) => {

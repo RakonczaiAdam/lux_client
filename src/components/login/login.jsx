@@ -48,8 +48,14 @@ export class Login extends React.Component {
       const response = await fetch(request);
       console.log(response.data);
 
-      navigate("/feed");
-    }
+
+      if(response.status==='200')
+        navigate("/feed");
+      else{
+        alert("Sikertelen bejelentkezés");
+        navigate("/login");
+      }
+  }
     else if(this.state.username === ''){
       alert("Felhasználónév megadása kötelező!");
     }
