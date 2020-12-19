@@ -29,6 +29,7 @@ export class Login extends React.Component {
   }
 
   async handleSubmit(event){
+
     if(this.state.username!=='' && this.state.passwd!==''){
       event.preventDefault();
       const encoded = window.btoa(this.state.username + ":" + this.state.passwd);
@@ -36,17 +37,16 @@ export class Login extends React.Component {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
           'Authorization': 'Basic ' + encoded,
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
         },
         credentials: 'same-origin'
       }
 
-      const request = new Request("https://lux-rest.herokuapp.com/post/get", newLogin);
+      const request = new Request("http://localhost:8080/post/get", newLogin);
 
       const response = await fetch(request);
-      console.log(response.response);
+      console.log(response.data);
 
       navigate("/feed");
     }
