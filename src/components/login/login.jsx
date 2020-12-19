@@ -69,8 +69,13 @@ export class Login extends React.Component {
   render(){
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">Bejelentkezés</div>
+         <div className="whiteBox">
           <div className="content">
+            <div className="header">
+                <h1>Bejelentkezés</h1>
+                <p>Welcome to the future of social media.<br/>
+                Sign in and start expanding!</p>
+                </div>
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Felhasználónév</label>
@@ -87,7 +92,8 @@ export class Login extends React.Component {
               <button onClick={this.changeToRegister}>Még nincs fiókja?</button>
             </div>
             </form>
-          </div>          
+          </div>
+        </div>
       </div>
     );
   }

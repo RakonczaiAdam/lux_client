@@ -113,46 +113,52 @@ export class Register extends React.Component {
   render(){
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">Regisztráció</div>
+        <div className="whiteBox">
           <div className="content">
-            <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="username">Felhasználónév</label>
-                <input type="text" username={this.state.username} onChange={this.handleChangeUserName} name="username" placeholder="Felhasználónév"></input>
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Jelszó</label>
-                <input type="password" passwd={this.state.passwd} onChange={this.handleChangePW} name="password" placeholder="Jelszó"></input>
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Jelszó ismét</label>
-                <input type="password" passwdagain={this.state.passwdagain} onChange={this.handleChangePWAgain} name="passwordagain" placeholder="Jelszó ismét"></input>
-              </div>
-              <div className="form-group">
-                <label htmlFor="lastname">Vezetéknév</label>
-                <input type="text" lastname={this.state.lastname} onChange={this.handleChangeLastName} name="lastname" placeholder="Felhasználónév"></input>
-              </div>
-              <div className="form-group">
-                <label htmlFor="firstname">Keresztnév</label>
-                <input type="text" firstname={this.state.firstname} onChange={this.handleChangeFirstName} name="firstname" placeholder="Felhasználónév"></input>
-              </div>
+            <div className="header">
+                <h1>Regisztráció</h1>
+                <p>Welcome to the future of social media.<br/>
+                Sign in and start expanding!</p>
+                </div>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="username">Felhasználónév</label>
+                    <input type="text" username={this.state.username} onChange={this.handleChangeUserName} name="username" placeholder="Felhasználónév"></input>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="password">Jelszó</label>
+                    <input type="password" passwd={this.state.passwd} onChange={this.handleChangePW} name="password" placeholder="Jelszó"></input>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="password">Jelszó ismét</label>
+                    <input type="password" passwdagain={this.state.passwdagain} onChange={this.handleChangePWAgain} name="passwordagain" placeholder="Jelszó ismét"></input>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="lastname">Vezetéknév</label>
+                    <input type="text" lastname={this.state.lastname} onChange={this.handleChangeLastName} name="lastname" placeholder="Felhasználónév"></input>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="firstname">Keresztnév</label>
+                    <input type="text" firstname={this.state.firstname} onChange={this.handleChangeFirstName} name="firstname" placeholder="Felhasználónév"></input>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="gender">Nem</label>
-                <select gender={this.state.gender} onChange={this.handleChangeGender}>
-                  <option value="choose">Válasszon!</option>
-                  <option value="M">Férfi</option>
-                  <option value="F">Nő</option>
-                </select>
-              </div>
-              <div className="footer">
-                <input type="submit" value="Regisztráció"/>
-              </div>
-              <div className="switch">
-              <button onClick={this.changeToLogin}>Már van fiókja?</button>
-            </div>
-            </form>
-          </div>          
+                  <div className="form-group">
+                    <label htmlFor="gender">Nem</label>
+                    <select gender={this.state.gender} onChange={this.handleChangeGender}>
+                      <option value="choose">Válasszon!</option>
+                      <option value="M">Férfi</option>
+                      <option value="F">Nő</option>
+                    </select>
+                  </div>
+                  <div className="footer">
+                    <input type="submit" value="Regisztráció"/>
+                  </div>
+                  <div className="switch">
+                  <button onClick={this.changeToLogin}>Már van fiókja?</button>
+                </div>
+                </form>
+          </div>
+            </div>          
       </div>
     );
   }
