@@ -2,7 +2,7 @@ import React from 'react';
 import './../dashboard/post.css';
 import './../dashboard/comment.css';
 
-export const FriendsRequest = () => {
+export async const FriendsRequest = () => {
   const encoded = getEncoded();
       const newRequest = {
         method: 'GET',

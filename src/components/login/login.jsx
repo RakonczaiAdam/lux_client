@@ -4,6 +4,7 @@ import "./style.scss";
 import Post from "../dashboard/post";
 import { createEncoded, getEncoded } from "./../dashboard/fetch";
 import { Friends, FriendsRequest } from "./../dashboard/people";
+import Feed from "./../dashboard/feed";
 
 export class Login extends React.Component {
 
@@ -18,7 +19,8 @@ export class Login extends React.Component {
       posts: [],
       friends: [],
       requests: [],
-      people:[]
+      people:[],
+      commentSSE : new EventSource("http://localhost:8080/comment/subscribe?username="+props.username)
     };
 
     this.handleChangeName = this.handleChangeName.bind(this);
@@ -158,21 +160,11 @@ export class Login extends React.Component {
     }
     else{
       return(
-        <div className="container">
-          <label>Home</label>
-            <textarea></textarea>
-            <button type="button">Post</button>
-            {this.state.posts.map(post =>(
-                <Post
-                    name={post.user.firstName+" "+post.user.lastName}
-                    date={post.date}
-                    content={post.content}
-                    likes={post.likes}
-                    comments={post.comments}
-                    key={post.id}
-                />
-            ))}
-        </div>
+        <Feed 
+          posts = {this.state.posts}
+          username={this.state.username}
+          pasword={this.state.passwd}
+        />
       )
     }
   }
