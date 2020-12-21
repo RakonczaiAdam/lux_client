@@ -50,6 +50,10 @@ export class Login extends React.Component {
     this.setState({people: true})
   }
 
+  SearchHandler(){
+    alert("search");
+  }
+
   async handleSubmit(event){
 
     if(this.state.username!=='' && this.state.passwd!==''){
@@ -143,7 +147,7 @@ export class Login extends React.Component {
         <div className="searchpeople">
             <div className="searchheader">
               <input name="searchfield" placeholder="Név keresése"></input>
-              <button type="button" onClick={}>Keresés</button>
+              <button type="button" onClick={this.SearchHandler()}>Keresés</button>
             </div>
             <div className="results">
 
