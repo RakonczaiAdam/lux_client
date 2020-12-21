@@ -2,7 +2,7 @@ import React from 'react';
 import './../dashboard/post.css';
 import './../dashboard/comment.css';
 
-class Post extends Component{
+class Post extends React.Component{
     constructor(props){
         super(props)
         this.state = {

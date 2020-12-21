@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import Post from './Post'
+import Post from './../dashboard/post';
 
-class Feed extends Component{
+class Feed extends React.Component{
     constructor(props){
         super(props)
         this.state = {

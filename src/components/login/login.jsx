@@ -1,7 +1,6 @@
 import { navigate } from "hookrouter";
 import React from "react";
 import "./style.scss";
-import Post from "../dashboard/post";
 import { createEncoded, getEncoded } from "./../dashboard/fetch";
 import { Friends, FriendsRequest } from "./../dashboard/people";
 import Feed from "./../dashboard/feed";

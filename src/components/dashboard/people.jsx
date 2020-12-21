@@ -1,6 +1,7 @@
 import React from 'react';
 import './../dashboard/post.css';
 import './../dashboard/comment.css';
+import { getEncoded } from './../dashboard/fetch';
 
 export async function FriendsRequest() {
   const encoded = getEncoded();
