@@ -1,6 +1,6 @@
 import React from 'react';
-import './../dashboard/post.css';
-import './../dashboard/comment.css';
+import './../../../src/css/post.css';
+import './../../../src/css/feed.css';
 import { getEncoded } from "./../dashboard/fetch";
 
 class Post extends React.Component{

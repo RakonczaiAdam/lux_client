@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import './../../../src/css/post.css';
+import './../../../src/css/feed.css';
 import Post from './../dashboard/post';
 import { getEncoded } from "./fetch";
 
@@ -14,7 +16,7 @@ class Feed extends React.Component{
         }
         this.postHandler = this.postHandler.bind(this)
         this.loadPosts = this.loadPosts.bind(this)
-        this.setState({posts: this.loadPosts})
+        this.setState({posts: this.loadPosts()})
     }
 
     changeHandler = (e) =>{

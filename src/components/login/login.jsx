@@ -1,6 +1,8 @@
 import { navigate } from "hookrouter";
 import React from "react";
 import "./style.scss";
+import './../../../src/css/post.css';
+import './../../../src/css/feed.css';
 import { createEncoded, getEncoded } from "./../dashboard/fetch";
 import Feed from "./../dashboard/feed";
 
@@ -150,12 +152,12 @@ export class Login extends React.Component {
     }
     else{
       return(
-      <div className="feedparent">
+      <div className="loggedInContent">
         <div className="buttons">
           <button onClick={this.buttonToPeople}>People</button>
           <button onClick={this.buttonToFeed}>Feed</button>           
         </div>
-        <div>
+        <div className="posts">
           <Feed 
           posts = {this.state.posts}
           username={this.state.username}
