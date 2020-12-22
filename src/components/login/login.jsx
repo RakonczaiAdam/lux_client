@@ -2,20 +2,21 @@ import { navigate } from "hookrouter";
 import React from "react";
 import "./style.scss";
 import { createEncoded, getEncoded } from "./../dashboard/fetch";
-import { Friends, FriendsRequest } from "./../dashboard/people";
 import Feed from "./../dashboard/feed";
 
-export class Login extends React.Component {
+var loginPreCheck = false;
+var posts = [];
 
+export class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       username: '',
       passwd:'',
-      loggedin: false,
+      loggedin: loginPreCheck,
       notifications: false,
       people: false,
-      posts: [],
+      posts: posts,
       friends: [],
       requests: [],
       people:[],
@@ -25,6 +26,8 @@ export class Login extends React.Component {
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangePW = this.handleChangePW.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.buttonToPeople = this.buttonToPeople.bind(this);
+    this.buttonToFeed = this.buttonToFeed.bind(this);
   }
 
   handleChangeName(event){
@@ -35,27 +38,9 @@ export class Login extends React.Component {
     this.setState({passwd: event.target.value});
   }
 
-  changeToRegister(){
-    navigate("/register");
-  }
-
-  navigateNotifications(){
-    this.setState({notifications: true});
-    this.setState({people: false})
-  }
-
-  navigatePeople(){
-    this.setState({notifications: false});
-    this.setState({people: true})
-  }
-
-  SearchHandler(){
-    alert("search");
-  }
-
   async handleSubmit(event){
 
-    if(this.state.username!=='' && this.state.passwd!==''){
+    if(this.state.username!=='' && this.state.passwd!=='' && !this.state.loggedin){
       event.preventDefault();
       createEncoded(this.state.username, this.state.passwd);
       const encoded = getEncoded();
@@ -72,16 +57,15 @@ export class Login extends React.Component {
       const request = new Request("http://localhost:8080/post/get", newLogin);
 
       const response = await fetch(request);
-      const posts = await response.json();
-
 
       if(response.status===200){
-        //navigate("/feed");
-        console.log(posts[0]);
-        this.setState({posts : posts});
-        this.setState({loggedin : true});
+        const postinput = await response.json();
 
-        this.setState({friends: FriendsRequest()});
+        console.log(postinput[0]);
+        this.setState({posts : postinput});
+        this.setState({loggedin : true});
+        loginPreCheck = true;
+        posts=this.state.posts;
 
         alert("Sikeres bejelentkezés\n" + this.state.loggedin);
       }
@@ -99,6 +83,38 @@ export class Login extends React.Component {
 
     event.preventDefault();
   }
+
+  buttonToFeed(){
+    navigate("/login");
+  }
+
+  buttonToPeople(){
+    navigate("/people");
+  }
+
+  async loadPosts(){
+    const encoded = getEncoded();
+    const newLogin = {
+        method: 'GET',
+        headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Basic ' + encoded,
+        'Access-Control-Allow-Origin': '*',
+        },
+        credentials: 'same-origin'
+    }
+
+    const request = new Request("http://localhost:8080/post/get", newLogin);
+
+    const response = await fetch(request);
+
+    var postinput;
+
+    if(response.status===200){
+        postinput = await response.json();
+        posts=postinput;
+    }
+}
 
   render(){
     if(!this.state.loggedin){
@@ -123,53 +139,55 @@ export class Login extends React.Component {
                 <div className="footer">
                   <input type="submit" value="Bejelentkezés"/>
                 </div>
-                <div className="switch">
+              </form>
+              <div className="switch">
                 <button onClick={this.changeToRegister}>Még nincs fiókja?</button>
               </div>
-              </form>
             </div>
           </div>
         </div>
       );
     }
-    else if(this.state.people){
-      return(
-      <div className="container">
-        <label>People</label>
-        <div className="friends">
-          {this.state.friends.map(friend => (
-            <Friends
-              name={friend.user.firstName + " " + friend.user.lastName}
-            />
-          ))}
-        </div>
-        <div className="searchpeople">
-            <div className="searchheader">
-              <input name="searchfield" placeholder="Név keresése"></input>
-              <button type="button" onClick={this.SearchHandler()}>Keresés</button>
-            </div>
-            <div className="results">
-
-            </div>
-        </div>
-        <div className="pending">
-
-        </div>
-      </div>
-      )
-    }
-    else if(this.state.notifications){
-
-    }
     else{
       return(
-        <Feed 
+      <div className="feedparent">
+        <div className="buttons">
+          <button onClick={this.buttonToPeople}>People</button>
+          <button onClick={this.buttonToFeed}>Feed</button>           
+        </div>
+        <div>
+          <Feed 
           posts = {this.state.posts}
           username={this.state.username}
           pasword={this.state.passwd}
-        />
-      )
+          />
+        </div> 
+      </div>)
     }
+  }
+}
+
+export async function loadPosts(){
+  const encoded = getEncoded();
+  const newLogin = {
+      method: 'GET',
+      headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Basic ' + encoded,
+      'Access-Control-Allow-Origin': '*',
+      },
+      credentials: 'same-origin'
+  }
+
+  const request = new Request("http://localhost:8080/post/get", newLogin);
+
+  const response = await fetch(request);
+
+  var postinput;
+
+  if(response.status===200){
+      postinput = await response.json();
+      posts=postinput;
   }
 }
 

@@ -1,9 +1,8 @@
-import React from 'react';
-import './../dashboard/post.css';
-import './../dashboard/comment.css';
-import { getEncoded } from "./../dashboard/fetch";
+import React, {Component} from 'react';
+import './../css/post.css';
+import './../css/comment.css';
 
-class Post extends React.Component{
+class Post extends Component{
     constructor(props){
         super(props)
         this.state = {
@@ -30,7 +29,7 @@ class Post extends React.Component{
         this.state.commentSSE.addEventListener("comment", (e)=>{
             const postId = e.data.split('-')[0]
             const c = JSON.parse(e.data.split('-')[1])
-            if(this.state.postId == postId){
+            if(this.state.postId === Number(postId)){
                 this.setState({comments : this.state.comments.concat(c)})
             }
         })
@@ -38,7 +37,7 @@ class Post extends React.Component{
     
     
     async commentHandler(e){
-        const encoded = getEncoded();
+        const encoded = window.btoa(this.state.username + ":" + this.state.password);
         const newComment = {
             method: 'POST',
             headers: {
@@ -55,10 +54,8 @@ class Post extends React.Component{
         const request = new Request("http://localhost:8080/comment/save?post_id="+this.state.postId, newComment)
 
         const response = await fetch(request)
-        
-        
+        const savedComment = await response.json()
         if(response.status === 200){
-            const savedComment = await response.json()
             this.setState({comments : this.state.comments.concat(savedComment)})
         }else{
             alert("Error")

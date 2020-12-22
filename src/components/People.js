@@ -1,29 +1,20 @@
-import { navigate } from "hookrouter";
-import React from 'react';
-import './../dashboard/post.css';
-import './../dashboard/comment.css';
-import { getEncoded } from './../dashboard/fetch';
-import {loadPosts} from './../login/login';
+import React, {Component} from 'react'
+import './../css/people.css'
 
-export class People extends React.Component{
+class People extends Component{
     constructor(props){
         super(props)
         this.state = {
             username : props.username,
             password : props.password,
-            friends : [],
-            pendings : [],
+            friends : props.friends,
+            pendings : props.pendings,
             searchContent : '',
-            searchedUser : [],
+            searchedUser : null
         }
         this.searchHandler = this.searchHandler.bind(this)
         this.sendFrinedRequest = this.sendFrinedRequest.bind(this)
         this.sendFriendResponse = this.sendFriendResponse.bind(this)
-        this.buttonToPeople = this.buttonToPeople.bind(this)
-        this.buttonToFeed = this.buttonToFeed.bind(this)
-
-        this.setState({pendings: props.pendings})
-        this.setState({friends: props.friends})
     }
 
     changeHandler = (e) =>{
@@ -32,7 +23,7 @@ export class People extends React.Component{
 
 
     async sendFrinedRequest(e){
-        const encoded = getEncoded();
+        const encoded = window.btoa(this.state.username + ":" + this.state.password);
         const newFriendReq = {
             method: 'POST',
             headers: {
@@ -53,7 +44,7 @@ export class People extends React.Component{
     }
 
     async sendFriendResponse(e){
-        const encoded = getEncoded();
+        const encoded = window.btoa(this.state.username + ":" + this.state.password);
         const newFriendResp = {
             method: 'PUT',
             headers: {
@@ -74,7 +65,7 @@ export class People extends React.Component{
     }
 
     async searchHandler(e){
-        const encoded = getEncoded();
+        const encoded = window.btoa(this.state.username + ":" + this.state.password);
         const newSearch = {
             method: 'GET',
             headers: {
@@ -94,50 +85,41 @@ export class People extends React.Component{
         }
     }
 
-    buttonToFeed(){
-        navigate("/login");
-    }
-  
-    buttonToPeople(){
-        navigate("/people");
-    }
-
     render(){
-        if(this.state.searchedUser === null){
+        const {friends, pendings, searchContent, searchedUser} = this.state
+        if(searchedUser === null){
             return(
-                <div>
-                    <div>
+                <div className="peopleContent">
+                    <div className="header">
+                        <h1>People</h1>
+                    </div>
+                    <div className="pendings">
                         <h3>
                             Pendings
-                        </h3>
-                        <div className="buttons">
-                          <button onClick={this.buttonToPeople}>People</button>
-                          <button onClick={this.buttonToFeed}>Feed</button>           
-                        </div>
-                        {this.state.pendings.map(pendingf =>(
-                            <div key={pendingf.id}>
-                                {pendingf.firstName+" "+pendingf.lastName}
-                                <button name={pendingf.username} onClick={this.sendFriendResponse}>accept</button>
+                        </h3> 
+                        {pendings.map(pending =>(
+                            <div className="acceptButton" key={pending.id}>
+                                <p>{pending.firstName+" "+pending.lastName}</p>
+                                <button name={pending.username} onClick={this.sendFriendResponse}>accept</button>
                             </div>
                         ))}
                     </div>
-                    <div>
+                    <div className="searchUser">
                         <h3>
                             Search user
                         </h3>
                         <textarea
                             name="seachContent"
-                            value={this.state.searchContent}
+                            value={searchContent}
                             onChange={this.changeHandler}/>
-                        <button onClick={this.searchHandler}>Search</button>
+                        <button className="searchButton" onClick={this.searchHandler}>Search</button>
                     </div>
-
-                    <div>
+                    <div className="friends">
                         <h3>
                             Friends
                         </h3>
-                        {this.state.friends.map(friend =>(
-                            <div key={friend.id}>
+                        {friends.map(friend =>(
+                            <div className="friendsList" key={friend.id}>
                                 <p>{friend.firstName+" "+friend.lastName}</p>
                             </div>
                         ))}
@@ -146,41 +128,36 @@ export class People extends React.Component{
             )
         }else{
             return(
-                <div>
-                    <div>
+                <div className="peopleContent">
+                    <div className="pendings">
                         <h3>
-                            Pending requests
-                        </h3>
-                        <div className="buttons">
-                          <button onClick={this.buttonToPeople}>People</button>
-                          <button onClick={this.buttonToFeed}>Feed</button>           
-                        </div>
-                        {this.state.pendings.map(pendingf =>(
-                            <div key={pendingf.id}>
-                                {pendingf.firstName+" "+pendingf.lastName}
-                                <button name={pendingf.username} onClick={this.sendFriendResponse}>accept</button>
+                            Pendings
+                        </h3> 
+                        {pendings.map(pending =>(
+                            <div className="acceptButton" key={pending.id}>
+                                {pending.firstName+" "+pending.lastName}
+                                <button name={pending.username} onClick={this.sendFriendResponse}>accept</button>
                             </div>
                         ))}
                     </div>
-                    <div>
+                    <div className="searchUser">
                         <h3>
                             Search user
                         </h3>
                         <textarea
                             name="seachContent"
-                            value={this.state.searchContent}
+                            value={searchContent}
                             onChange={this.changeHandler}/>
-                        <button onClick={this.searchHandler}>Search</button>
+                        <button className="searchButton" onClick={this.searchHandler}>Search</button>
                         <div>
-                            {this.state.searchedUser.username} <button type="button" onClick={this.sendFrinedRequest}>request</button>
+                            {searchedUser.username} <button type="button" onClick={this.sendFrinedRequest}>request</button>
                         </div>
                     </div>
-
-                    <div>
+                    <div className="friends">
                         <h3>
                             Friends
                         </h3>
-                        {this.state.friends.map(friend =>(
+                        {friends.map(friend =>(
                             <div key={friend.id}>
                                 <p>{friend.firstName+" "+friend.lastName}</p>
                             </div>
@@ -192,4 +169,4 @@ export class People extends React.Component{
     }
 }
 
-export default People;
+export default People
